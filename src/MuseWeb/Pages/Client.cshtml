@@ -1,0 +1,68 @@
+﻿@page
+@model ClientModel
+@{
+}
+
+<style>
+    #shape {
+        width: 100px;
+        height: 100px;
+        background-color: red;
+        cursor: move;
+    }
+</style>
+
+<h1>Client</h1>
+
+
+
+    <div>
+        <div>X:</div>
+        <div id="X"></div>
+    </div>
+    <div>
+        <div>Y:</div>
+        <div id="Y"></div>
+    </div>
+    <div id="shape"></div>
+
+@section Scripts {
+    <script src="/lib/signalr/signalr.js"></script>
+    <script>
+        $shape = $("#shape");
+        $x = $("#X");
+        $y = $('#Y');
+
+        var connection = new signalR.HubConnection("/hubs/client");
+
+        connection.on('shapeMoved', function(x, y) {
+            $shape.css({ left: x * 100, top: y * 100 });
+            $x.html(x);
+            $y.html(y);
+        });
+
+        $(document).ready(function() {
+            $(document).on("keypress", keyPressHandler)
+            connection.start()
+        })
+
+        function keyPressHandler(e){
+            if(e.keyCode === 119)
+            {
+                connection.send("UserCommand", "north"); //W
+            }
+            if(e.keyCode === 97)
+            {
+                connection.send("UserCommand", "west"); //A
+            }
+            if(e.keyCode === 115)
+            {
+                connection.send("UserCommand", "south"); //S
+            }
+            if(e.keyCode === 100)
+            {
+                connection.send("UserCommand", "east"); //D
+            }
+        }
+    </script>
+}
