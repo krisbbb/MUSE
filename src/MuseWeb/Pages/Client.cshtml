@@ -29,41 +29,13 @@
 @section Scripts {
     <script src="/lib/signalr/signalr.js"></script>
     <script src="/lib/quintus/quintus.js"></script>
-    <script>
-        $shape = $("#shape");
-        $x = $("#X");
-        $y = $('#Y');
-
-        var connection = new signalR.HubConnection("/hubs/client");
-
-        connection.on('shapeMoved', function(x, y) {
-            $shape.css({ left: x * 100, top: y * 100 });
-            $x.html(x);
-            $y.html(y);
-        });
-
-        $(document).ready(function() {
-            $(document).on("keypress", keyPressHandler)
-            connection.start()
-        })
-
-        function keyPressHandler(e){
-            if(e.keyCode === 119)
-            {
-                connection.send("UserCommand", "north"); //W
-            }
-            if(e.keyCode === 97)
-            {
-                connection.send("UserCommand", "west"); //A
-            }
-            if(e.keyCode === 115)
-            {
-                connection.send("UserCommand", "south"); //S
-            }
-            if(e.keyCode === 100)
-            {
-                connection.send("UserCommand", "east"); //D
-            }
-        }
-    </script>
+    <script src="/lib/quintus/quintus_sprites.js"></script>
+    <script src="/lib/quintus/quintus_scenes.js"></script>
+    <script src="/lib/quintus/quintus_input.js"></script>
+    <script src="/lib/quintus/quintus_2d.js"></script>
+    <script src="/lib/quintus/quintus_anim.js"></script>
+    <script src="/lib/quintus/quintus_touch.js"></script>
+    <script src="/lib/quintus/quintus_ui.js"></script>
+    <script src="/lib/quintus/quintus_audio.js"></script>
+    <script src="/js/client.js"></script>
 }
