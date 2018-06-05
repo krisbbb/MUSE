@@ -7,40 +7,74 @@ $y = $('#Y');
 
 var connection = new signalR.HubConnection("/hubs/client");
 
-connection.on('shapeMoved', function(x, y) {
-    $shape.css({ left: x * 100, top: y * 100 });
-    $x.html(x);
-    $y.html(y);
-});
+// connection.on('shapeMoved', function(x, y) {
+//     $shape.css({ left: x * 100, top: y * 100 });
+//     $x.html(x);
+//     $y.html(y);
+// });
 
-$(document).ready(function() {
+// $(document).ready(function() {
 
-  var Q = Quintus({audioSupported: [ 'wav','mp3' ]})
-  .include('Sprites, Scenes, Input, 2D, Anim, Touch, UI, Audio')
-  .setup({ maximize: true })
-  .enableSound()
-  .controls().touch();
+//   var Q = Quintus({audioSupported: [ 'wav','mp3' ]})
+//   .include('Sprites, Scenes, Input, 2D, Anim, Touch, UI, Audio')
+//   .setup({ maximize: true })
+//   .enableSound()
+//   .controls().touch();
+
+var Q = window.Q = Quintus().include("Sprites, Scenes, 2D, Input")
+.setup({ width: 1000, height: 600 });
+
+Q.options.imagePath = '/images/';
+
 
 Q.gravityY = 0;
 
-Q.Sprite.extend('Player', {
-  init: function (p) {
-    this._super(p, {
-      sheet: 'player'
-    });
+      // Bind the basic inputs to different behaviors of sprite1
+      Q.input.on('up',stage,function(e) { 
+        //sprite1.p.scale -= 0.1;
+        connection.send("UserCommand", "north"); //W
+      });
+  
+      Q.input.on('down',stage,function(e) { 
+        //sprite1.p.scale += 0.1;
+      });
+  
+      Q.input.on('left',stage,function(e) {
+        //sprite1.p.angle -= 5;
+      });
+  
+      Q.input.on('right',stage,function(e) {
+        //sprite1.p.angle += 5;
+      });
+  
+      Q.input.on('fire',stage,function(e) {
+        //sprite1.p.vy = -600;
+      });
+  
+      Q.input.on('action',stage,function(e) {
+        // sprite1.p.x = 500;
+        // sprite1.p.y = 100;
+      });
+  
 
-    this.add('2d, platformerControls, animation');
-  },
-  step: function (dt) {
-    if (Q.inputs['up']) {
-      this.p.vy = -200;
-    } else if (Q.inputs['down']) {
-      this.p.vy = 200;
-    } else if (!Q.inputs['down'] && !Q.inputs['up']) {
-      this.p.vy = 0;
-    }
-  }
-});
+// Q.Sprite.extend('Player', {
+//   init: function (p) {
+//     this._super(p, {
+//       sheet: 'player'
+//     });
+
+//     this.add('2d, platformerControls, animation');
+//   },
+//   step: function (dt) {
+//     if (Q.inputs['up']) {
+//       this.p.vy = -200;
+//     } else if (Q.inputs['down']) {
+//       this.p.vy = 200;
+//     } else if (!Q.inputs['down'] && !Q.inputs['up']) {
+//       this.p.vy = 0;
+//     }
+//   }
+// });
 
 var files = [
     '/images/tiles.png',
