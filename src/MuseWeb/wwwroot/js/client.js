@@ -1,17 +1,10 @@
 
 
-//window.addEventListener('load',function(e) { //Run this file when the window loads
-$shape = $("#shape");
+window.addEventListener('load',function(e) { //Run this file when the window loads
+
+  $shape = $("#shape");
 $x = $("#X");
 $y = $('#Y');
-
-var connection = new signalR.HubConnection("/hubs/client");
-
-// connection.on('shapeMoved', function(x, y) {
-//     $shape.css({ left: x * 100, top: y * 100 });
-//     $x.html(x);
-//     $y.html(y);
-// });
 
 // $(document).ready(function() {
 
@@ -61,6 +54,18 @@ Q.gravityY = 0;
         connection.send("UserCommand", "action"); // keycode 88:x
       });
   
+      var connection = new signalR.HubConnection("/hubs/client");
+
+connection.on('shapeMoved', function(x, y) {
+    //$shape.css({ left: x * 100, top: y * 100 });
+    //$x.html(x);
+    //$y.html(y);
+
+    sprite1.p.x = x * 100;
+    sprint1.p.y = y * 100;
+});
+
+
 
 // Q.Sprite.extend('Player', {
 //   init: function (p) {

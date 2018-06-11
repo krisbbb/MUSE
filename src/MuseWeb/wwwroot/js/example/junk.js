@@ -5,6 +5,9 @@ console.log("Another log message.")
 
 window.addEventListener('load',function(e) {
 
+  var connection = new signalR.HubConnection("/hubs/client");
+
+
 
     // Set up a standard Quintus instance with only the 
     // Sprites and Scene module (for the stage support) loaded.
@@ -12,6 +15,7 @@ window.addEventListener('load',function(e) {
                                 .setup({ width: 1000, height: 600 });
 
     Q.options.imagePath = '/images/';
+    Q.gravityY = 0;
   
     // // Draw vertical lines at every 100 pixels for visual indicators
     // function drawLines(ctx) {
@@ -55,34 +59,48 @@ window.addEventListener('load',function(e) {
         ctx.fillRect(-this.p.cx,-this.p.cy,this.p.w,this.p.h);
       };
       stage.insert(sprite2);
-  
       // Bind the basic inputs to different behaviors of sprite1
       Q.input.on('up',stage,function(e) { 
         //sprite1.p.scale -= 0.1;
+        connection.send("UserCommand", "north"); // keycode 38:up arrow
       });
   
       Q.input.on('down',stage,function(e) { 
         //sprite1.p.scale += 0.1;
+        connection.send("UserCommand", "south"); // keycode 40:down arrow
       });
   
       Q.input.on('left',stage,function(e) {
         //sprite1.p.angle -= 5;
+        connection.send("UserCommand", "west"); // keycode 37:left arrow
       });
   
       Q.input.on('right',stage,function(e) {
         //sprite1.p.angle += 5;
+        connection.send("UserCommand", "east"); // keycode 39:right arrow
       });
   
       Q.input.on('fire',stage,function(e) {
-        sprite1.p.vy = -600;
+        //sprite1.p.vy = -600;
+        connection.send("UserCommand", "fire"); // keycode 90:z
       });
   
       Q.input.on('action',stage,function(e) {
-        sprite1.p.x = 500;
-        sprite1.p.y = 100;
+        // sprite1.p.x = 500;
+        // sprite1.p.y = 100;
+        connection.send("UserCommand", "action"); // keycode 88:x
       });
   
-  
+      connection.on('shapeMoved', function(x, y) {
+        //$shape.css({ left: x * 100, top: y * 100 });
+        //$x.html(x);
+        //$y.html(y);
+    
+        sprite1.p.x = x * 100;
+        sprite1.p.y = y * 100;
+    });
+    
+    
       // Draw some lines after each frame
     //   stage.on('postrender',drawLines);
     });
@@ -100,4 +118,5 @@ window.addEventListener('load',function(e) {
       Q.input.keyboardControls();
     });
   
+    connection.start()
   });
