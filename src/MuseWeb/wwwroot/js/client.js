@@ -32,28 +32,33 @@ Q.gravityY = 0;
       // Bind the basic inputs to different behaviors of sprite1
       Q.input.on('up',stage,function(e) { 
         //sprite1.p.scale -= 0.1;
-        connection.send("UserCommand", "north"); //W
+        connection.send("UserCommand", "north"); // keycode 38:up arrow
       });
   
       Q.input.on('down',stage,function(e) { 
         //sprite1.p.scale += 0.1;
+        connection.send("UserCommand", "south"); // keycode 40:down arrow
       });
   
       Q.input.on('left',stage,function(e) {
         //sprite1.p.angle -= 5;
+        connection.send("UserCommand", "west"); // keycode 37:left arrow
       });
   
       Q.input.on('right',stage,function(e) {
         //sprite1.p.angle += 5;
+        connection.send("UserCommand", "east"); // keycode 39:right arrow
       });
   
       Q.input.on('fire',stage,function(e) {
         //sprite1.p.vy = -600;
+        connection.send("UserCommand", "fire"); // keycode 90:z
       });
   
       Q.input.on('action',stage,function(e) {
         // sprite1.p.x = 500;
         // sprite1.p.y = 100;
+        connection.send("UserCommand", "action"); // keycode 88:x
       });
   
 
