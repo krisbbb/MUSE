@@ -79,8 +79,8 @@ window.addEventListener('load',function(e) {
     //$x.html(x);
     //$y.html(y);
 
-    sprite1.p.x = x * 100;
-    sprite1.p.y = y * 100;
+       sprite1.p.x = x * 100;
+      sprite1.p.y = y * 100;
     });
     
     
