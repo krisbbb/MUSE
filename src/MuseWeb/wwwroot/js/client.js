@@ -14,6 +14,23 @@ window.addEventListener('load',function(e) { //Run this file when the window loa
   Q.options.imagePath = '/images/';
   Q.gravityY = 0;
 
+  var sprites = {};
+  var image_map = {
+    hero: 'hero.png',
+    enemy: 'enemy.png',
+    wall: 'wall.png',
+    bullet: 'bullet.png'
+  };
+
+  //Make tile layer
+
+  //Make base sprite class
+
+  //Make player class
+
+  //Follow player in viewport
+
+
   Q.scene("start",function(stage) {
 
     // A basic sprite shape a asset as the image
@@ -29,6 +46,9 @@ window.addEventListener('load',function(e) { //Run this file when the window loa
     Q.input.on('fire',stage,function(e) { connection.send("UserCommand", "fire"); }); // keycode 90:z
     Q.input.on('action',stage,function(e) { connection.send("UserCommand", "action"); }); // keycode 88:x  
 
+    connection.on('shapeAdded', function(id, face) {
+
+    });
     connection.on('shapeMoved', function(x, y) {
       $x.html(x);
       $y.html(y);
@@ -49,7 +69,9 @@ window.addEventListener('load',function(e) { //Run this file when the window loa
   
     // Turn on default keyboard controls
     Q.input.keyboardControls();
+
+    //Start WebSocket to Server
+    connection.start()
   });
   
-  connection.start()
 });
