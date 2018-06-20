@@ -8,11 +8,15 @@ namespace MuseWeb.Hubs
     [Authorize]
     public class ClientHub : Hub
     {
+        public static int x = 0;
+        public static int y = 0;
+
         public override async Task OnConnectedAsync()
         {
             //await Clients.All.SendAsync("SendAction", Context.User.Identity.Name, "joined");
             var playerid = 0;
-            await Clients.Caller.SendAsync("shapeAdded", playerid, "face");
+            int z = 0;
+            await Clients.Caller.SendAsync("shapeAdded", playerid, "face", x, y, z);
         }
 
         public override async Task OnDisconnectedAsync(Exception ex)
@@ -24,9 +28,6 @@ namespace MuseWeb.Hubs
         // {
         //     await Clients.All.SendAsync("SendMessage", Context.User.Identity.Name, message);
         // }
-
-        public static int x = 0;
-        public static int y = 0;
 
         public async Task UserCommand(string command)
         {

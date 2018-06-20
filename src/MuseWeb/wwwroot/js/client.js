@@ -6,6 +6,9 @@ window.addEventListener('load',function(e) { //Run this file when the window loa
   $x = $("#X");
   $y = $('#Y');
 
+  var map_scale = 0.25
+  var grid_size = 25
+
   var connection = new signalR.HubConnection("/hubs/client");
 
   var Q = window.Q = Quintus().include("Sprites, Scenes, 2D, Input")
@@ -34,13 +37,13 @@ window.addEventListener('load',function(e) { //Run this file when the window loa
 
   var main_stage = {};
 
-  connection.on('shapeAdded', function(id, face) {
+  connection.on('shapeAdded', function(id, face, x, y, z) {
     // A basic sprite shape a asset as the image
 
-    console.log("shapeAdded(" + id + "," + face + ")") //Debug
+   // console.log("shapeAdded(" + id + "," + face + ")") //Debug
 
-    var sprite1 = new Q.Sprite({ x: 500, y: 100, asset: 'enemy.png', 
-      angle: 0, collisionMask: 1, scale: 0.25});
+    var sprite1 = new Q.Sprite({ x: x * 25 + 20, y: y * 25 + 20, asset: 'enemy.png', 
+      angle: 0, collisionMask: 1, scale: map_scale});
     sprites[id] = sprite1;
     main_stage.insert(sprite1);
   });
@@ -54,8 +57,8 @@ window.addEventListener('load',function(e) { //Run this file when the window loa
 
     sprite1 = sprites[id];
 
-    sprite1.p.x = x * 100;
-    sprite1.p.y = y * 100;
+    sprite1.p.x = x * 25 + 20;
+    sprite1.p.y = y * 25 + 20;
   });
 
 
