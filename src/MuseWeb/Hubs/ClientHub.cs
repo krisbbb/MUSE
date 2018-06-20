@@ -49,7 +49,9 @@ namespace MuseWeb.Hubs
                 break;
             }
 
-            await Clients.All.SendAsync("shapeMoved", x, y);
+            int playerId = 0;
+            int z = 0;
+            await Clients.Caller.SendAsync("shapeMoved", playerId, x, y, z);
         }
     }
 }

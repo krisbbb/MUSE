@@ -37,10 +37,10 @@ window.addEventListener('load',function(e) { //Run this file when the window loa
   connection.on('shapeAdded', function(id, face) {
     // A basic sprite shape a asset as the image
 
-    console.log("shapeAdded(" + id + "," + face + ")")
+    console.log("shapeAdded(" + id + "," + face + ")") //Debug
 
     var sprite1 = new Q.Sprite({ x: 500, y: 100, asset: 'enemy.png', 
-      angle: 0, collisionMask: 1, scale: 1});
+      angle: 0, collisionMask: 1, scale: 0.25});
     sprites[id] = sprite1;
     main_stage.insert(sprite1);
   });
@@ -49,6 +49,8 @@ window.addEventListener('load',function(e) { //Run this file when the window loa
   connection.on('shapeMoved', function(id, x, y, z) {
     $x.html(x);
     $y.html(y);
+
+    console.log("shapeMoved(" + id + "," + x + "," + y + "," + z + ")") //Debug
 
     sprite1 = sprites[id];
 
