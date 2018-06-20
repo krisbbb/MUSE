@@ -10,7 +10,9 @@ namespace MuseWeb.Hubs
     {
         public override async Task OnConnectedAsync()
         {
-            await Clients.All.SendAsync("SendAction", Context.User.Identity.Name, "joined");
+            //await Clients.All.SendAsync("SendAction", Context.User.Identity.Name, "joined");
+            var playerid = 0;
+            await Clients.Caller.SendAsync("shapeAdded", playerid, "face");
         }
 
         public override async Task OnDisconnectedAsync(Exception ex)
