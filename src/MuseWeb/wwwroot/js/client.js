@@ -6,16 +6,20 @@ window.addEventListener('load',function(e) { //Run this file when the window loa
   $x = $("#X");
   $y = $('#Y');
 
-  var map_scale = 0.25
-  var grid_size = 25
+  var map_scale = 1
+  var grid_size = 30
+  var grid_to_stage = function(x) {
+    return x * grid_size + (grid_size / 2);
+  };
 
   var connection = new signalR.HubConnection("/hubs/client");
 
   var Q = window.Q = Quintus().include("Sprites, Scenes, 2D, Input")
-    .setup({ width: 1000, height: 600 });
+    .setup({ width: 800, height: 800 });
 
-  Q.options.imagePath = '/images/';
-  Q.gravityY = 0;
+    Q.options.imagePath = '/images/';
+    Q.options.dataPath = '/images/';
+    Q.gravityY = 0;
 
   var controls = function(stage) {
     // Bind the basic inputs to send controls to the server
@@ -29,10 +33,10 @@ window.addEventListener('load',function(e) { //Run this file when the window loa
   
   var sprites = {};
   var image_map = {
-    hero: 'hero.png',
-    enemy: 'enemy.png',
-    wall: 'wall.png',
-    bullet: 'bullet.png'
+    player: 'player',
+    orc: 'enemy',
+    kobold: 'ghost',
+    //bullet: 'bullet.png'
   };
 
   var main_stage = {};
@@ -40,25 +44,34 @@ window.addEventListener('load',function(e) { //Run this file when the window loa
   connection.on('shapeAdded', function(id, face, x, y, z) {
     // A basic sprite shape a asset as the image
 
-   // console.log("shapeAdded(" + id + "," + face + ")") //Debug
+    // console.log("shapeAdded(" + id + "," + face + ")") //Debug
 
-    var sprite1 = new Q.Sprite({ x: x * 25 + 20, y: y * 25 + 20, asset: 'enemy.png', 
-      angle: 0, collisionMask: 1, scale: map_scale});
+    var sheet = image_map[face]
+
+    var sprite1 = new Q.Sprite({
+      x: grid_to_stage(x), y: grid_to_stage(y), z: z, 
+      //asset: 'enemy.png', 
+      sheet: sheet,
+      angle: 0, collisionMask: 1, 
+      scale: map_scale});
     sprites[id] = sprite1;
     main_stage.insert(sprite1);
   });
 
-
   connection.on('shapeMoved', function(id, x, y, z) {
-    $x.html(x);
-    $y.html(y);
-
-    console.log("shapeMoved(" + id + "," + x + "," + y + "," + z + ")") //Debug
+    //console.log("shapeMoved(" + id + "," + x + "," + y + "," + z + ")") //Debug
 
     sprite1 = sprites[id];
 
-    sprite1.p.x = x * 25 + 20;
-    sprite1.p.y = y * 25 + 20;
+    stage_x = grid_to_stage(x)
+    stage_y = grid_to_stage(y)
+
+    $x.html(x + "(" + stage_x + ")");
+    $y.html(y + "(" + stage_y + ")");
+
+    sprite1.p.x = stage_x;
+    sprite1.p.y = stage_y;
+    sprite1.p.z = z;
   });
 
 
@@ -77,15 +90,24 @@ window.addEventListener('load',function(e) { //Run this file when the window loa
     controls(stage);
   });
   
-  Q.load('enemy.png',function() {
+  var files = [
+    'enemy.png',
+    'tiles.png',
+    //'arena.json',
+    'sprites.png',
+    'sprites.json'
+  ];
+ 
+  Q.load(files.join(','),function() {
   
     // Start the show
     Q.stageScene("start");
   
     // Turn visual debugging on to see the 
     // bounding boxes and collision shapes
-    Q.debug = true;
-  
+    //Q.debug = true;
+    Q.compileSheets('sprites.png', 'sprites.json');
+
     // Turn on default keyboard controls
     Q.input.keyboardControls();
 
