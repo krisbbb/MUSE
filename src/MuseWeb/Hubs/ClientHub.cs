@@ -16,7 +16,18 @@ namespace MuseWeb.Hubs
             //await Clients.All.SendAsync("SendAction", Context.User.Identity.Name, "joined");
 
             var scenery = "basic";
-            var data = "[[0101010],[0000000],[0000000000],[010101010101]]";
+            var data = @"[[1111111111111111],
+                          [1000000000000001],
+                          [1000000000000001],
+                          [1000000000000001],
+                          [1000000000000001],
+                          [1000000000000001],
+                          [1000000000000001],
+                          [1000000000000001],
+                          [1000000000000001],
+                          [1000000000000001],
+                          [1000000000000001],
+                          [1111111111111111]]";
 
             await Clients.Caller.SendAsync("newScene", scenery, data);
 

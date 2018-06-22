@@ -47,11 +47,24 @@ window.addEventListener('load',function(e) { //Run this file when the window loa
 
         // Start the show
         Q.stageScene("start");
-  
+
+        Q.sheet('tiles', 'tiles.png', { tilew: 32, tileh: 32 });
+        Q.compileSheets('sprites.png', 'sprites.json');
+        
+        new Q.TileLayer({
+          tileW: 32,  // Default tile width
+          tileH: 32,  // Default tile height
+          blockTileW: 10,  // Default pre-render size
+          blockTileH: 10,
+          type: Q.SPRITE_DEFAULT, // Default type (for collisions)
+          //dataAsset: "tiles.json",
+          tiles: data,
+          sheet: "tiles"
+        });
+
         // Turn visual debugging on to see the 
         // bounding boxes and collision shapes
         //Q.debug = true;
-        Q.compileSheets('sprites.png', 'sprites.json');
     
         // Turn on default keyboard controls
         Q.input.keyboardControls();    
