@@ -76,6 +76,19 @@ window.addEventListener('load',function(e) { //Run this file when the window loa
 
 
   //Make tile layer - scene
+  //May be able to set tiles prop directly instead of using dataAsset:
+  // tileData <- from server
+  // new Q.TileLayer({
+  //   tileW: 32,  // Default tile width
+  //   tileH: 32,  // Default tile height
+  //   blockTileW: 10,  // Default pre-render size
+  //   blockTileH: 10,
+  //   type: Q.SPRITE_DEFAULT, // Default type (for collisions)
+  //   //dataAsset: "tiles.json",
+  //   tiles: "tiles.json",
+  //   sheet: "tiles"
+  // });
+  // see quintus_2d.js:199 (load: fn)
 
   //Make base sprite class
 
