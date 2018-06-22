@@ -14,6 +14,12 @@ namespace MuseWeb.Hubs
         public override async Task OnConnectedAsync()
         {
             //await Clients.All.SendAsync("SendAction", Context.User.Identity.Name, "joined");
+
+            var scenery = "basic";
+            var data = "[[0101010],[0000000],[0000000000],[010101010101]]";
+
+            await Clients.Caller.SendAsync("newScene", scenery, data);
+
             var playerid = 0;
             int z = 0;
             await Clients.Caller.SendAsync("shapeAdded", playerid, "player", x, y, z);

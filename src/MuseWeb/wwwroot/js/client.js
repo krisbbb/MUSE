@@ -41,6 +41,22 @@ window.addEventListener('load',function(e) { //Run this file when the window loa
 
   var main_stage = {};
 
+  connection.on('newScene', function(scenerySet, data) {
+
+    console.log("newScene(" + scenerySet + "," + data + ")") //Debug
+
+        // Start the show
+        Q.stageScene("start");
+  
+        // Turn visual debugging on to see the 
+        // bounding boxes and collision shapes
+        //Q.debug = true;
+        Q.compileSheets('sprites.png', 'sprites.json');
+    
+        // Turn on default keyboard controls
+        Q.input.keyboardControls();    
+  });
+
   connection.on('shapeAdded', function(id, face, x, y, z) {
     // A basic sprite shape a asset as the image
 
@@ -111,19 +127,7 @@ window.addEventListener('load',function(e) { //Run this file when the window loa
     'sprites.json'
   ];
  
-  Q.load(files.join(','),function() {
-  
-    // Start the show
-    Q.stageScene("start");
-  
-    // Turn visual debugging on to see the 
-    // bounding boxes and collision shapes
-    //Q.debug = true;
-    Q.compileSheets('sprites.png', 'sprites.json');
-
-    // Turn on default keyboard controls
-    Q.input.keyboardControls();
-
+  Q.load(files.join(','),function() {  
     //Start WebSocket to Server
     connection.start()
   });
