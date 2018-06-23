@@ -8,26 +8,45 @@ namespace MuseWeb.Hubs
     [Authorize]
     public class ClientHub : Hub
     {
-        public static int x = 0;
-        public static int y = 0;
+        public static int x = 1;
+        public static int y = 1;
 
         public override async Task OnConnectedAsync()
         {
             //await Clients.All.SendAsync("SendAction", Context.User.Identity.Name, "joined");
 
             var scenery = "basic";
-            var data = @"[[0101010101010101],
-                          [1100110011001100],
-                          [0001110001110001],
-                          [0000111100001111],
-                          [0100100100100100],
-                          [0011000100110001],
-                          [1000000000000001],
-                          [1000000000000001],
-                          [1000000000000001],
-                          [1000000000000001],
-                          [1000000000000001],
-                          [1111111111111111]]";
+
+            var data = new int[,] {
+              {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+              {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+              {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+              {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+              {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+              {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+              {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+              {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+              {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+              {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+              {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+              {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+              {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+              {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+              {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+              {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+            };
+            // var data = @"[[0101010101010101],
+            //               [1100110011001100],
+            //               [0001110001110001],
+            //               [0000111100001111],
+            //               [0100100100100100],
+            //               [0011000100110001],
+            //               [1000000000000001],
+            //               [1000000000000001],
+            //               [1000000000000001],
+            //               [1000000000000001],
+            //               [1000000000000001],
+            //               [1111111111111111]]";
 
             await Clients.Caller.SendAsync("newScene", scenery, data);
 
@@ -51,13 +70,14 @@ namespace MuseWeb.Hubs
 
         public async Task UserCommand(string command)
         {
-            int max = 16;
+            int min = 1;
+            int max = 15;
 
             Console.WriteLine(String.Format("got command ({0})", command));
             switch(command)
             {
                 case "north":
-                    y = Math.Max(0, y - 1);
+                    y = Math.Max(min, y - 1);
                 break;
                 case "south":
                     y = Math.Min(max, y + 1);
@@ -66,7 +86,7 @@ namespace MuseWeb.Hubs
                     x = Math.Min(max, x + 1);
                 break;
                 case "west":
-                    x = Math.Max(0, x - 1);
+                    x = Math.Max(min, x - 1);
                 break;
                 default:
                 break;
