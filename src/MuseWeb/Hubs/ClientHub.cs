@@ -11,6 +11,8 @@ namespace MuseWeb.Hubs
         public static int x = 1;
         public static int y = 1;
 
+        public static int z = 5;
+
         public override async Task OnConnectedAsync()
         {
             //await Clients.All.SendAsync("SendAction", Context.User.Identity.Name, "joined");
@@ -35,23 +37,10 @@ namespace MuseWeb.Hubs
               {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
               {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
             };
-            // var data = @"[[0101010101010101],
-            //               [1100110011001100],
-            //               [0001110001110001],
-            //               [0000111100001111],
-            //               [0100100100100100],
-            //               [0011000100110001],
-            //               [1000000000000001],
-            //               [1000000000000001],
-            //               [1000000000000001],
-            //               [1000000000000001],
-            //               [1000000000000001],
-            //               [1111111111111111]]";
 
             await Clients.Caller.SendAsync("newScene", scenery, data);
 
             var playerid = 0;
-            int z = 0;
             await Clients.Caller.SendAsync("shapeAdded", playerid, "player", x, y, z);
 
             await Clients.Caller.SendAsync("shapeAdded", 2, "orc", 3, 3, 1);
@@ -93,7 +82,6 @@ namespace MuseWeb.Hubs
             }
 
             int playerId = 0;
-            int z = 1;
             await Clients.Caller.SendAsync("shapeMoved", playerId, x, y, z);
         }
     }

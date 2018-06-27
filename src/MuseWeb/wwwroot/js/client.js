@@ -43,10 +43,10 @@ window.addEventListener('load',function(e) { //Run this file when the window loa
 
   connection.on('newScene', function(scenerySet, data) {
 
-    console.log("newScene(" + scenerySet + "," + data + ")") //Debug
+    //console.log("newScene(" + scenerySet + "," + data + ")") //Debug
 
         // Start the show
-        Q.stageScene("start");
+        Q.stageScene("start", 0, {sort: true});
 
         Q.sheet('tiles', 'tiles.png', { tilew: 32, tileh: 32 });
         Q.compileSheets('sprites.png', 'sprites.json');
@@ -68,7 +68,7 @@ window.addEventListener('load',function(e) { //Run this file when the window loa
   connection.on('shapeAdded', function(id, face, x, y, z) {
     // A basic sprite shape a asset as the image
 
-    // console.log("shapeAdded(" + id + "," + face + ")") //Debug
+    console.log("shapeAdded(" + id + "," + face + "," + x + "," + y + "," + z + ")") //Debug
 
     var sheet = image_map[face]
 
@@ -83,7 +83,7 @@ window.addEventListener('load',function(e) { //Run this file when the window loa
   });
 
   connection.on('shapeMoved', function(id, x, y, z) {
-    //console.log("shapeMoved(" + id + "," + x + "," + y + "," + z + ")") //Debug
+    console.log("shapeMoved(" + id + "," + x + "," + y + "," + z + ")") //Debug
 
     sprite1 = sprites[id];
 
