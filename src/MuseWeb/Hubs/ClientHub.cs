@@ -63,8 +63,10 @@ namespace MuseWeb.Hubs
 
         private async Task ShapeMoved(string connectionId, int shapeId, int x, int y, int z)
         {
-            Console.WriteLine(String.Format("Trying connection id {0}.", connectionId));
-            await Clients.Client(connectionId).SendAsync("shapeMoved", shapeId, x, y, z);
+            // Console.WriteLine(String.Format("Trying connection id {0}.", connectionId));
+            // await Clients.Client(connectionId).SendAsync("shapeMoved", shapeId, x, y, z);
+            Console.WriteLine(String.Format("Trying saved connection."));
+            await hubConnection.SendAsync("shapeMoved", shapeId, x, y, z);
         }
 
         public async Task UserCommand(string command)
