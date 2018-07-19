@@ -13,6 +13,7 @@ using MuseWeb.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MuseWeb.Hubs;
+using MuseWeb.Services;
 
 namespace MuseWeb
 {
@@ -45,6 +46,8 @@ namespace MuseWeb
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             services.AddSignalR();
+
+            services.AddTransient<INotifyService, NotifyService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

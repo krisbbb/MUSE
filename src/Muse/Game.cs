@@ -17,16 +17,17 @@ namespace Muse
 
         public void Connect(IConnection connection)
         {
-            //var newPlayerId = objectId++;
             connections[playerId] = connection;
             connection.Action += (s, e) => UserCommand(e.Action, e.TargetId);
             connection.OnNewScene(assets.SceneryId(mapId), assets.MapData(mapId));
             connection.OnNewShape(playerId, "player", x, y, 5);
-            //connection.OnNewShape(newPlayerId, "player", 1, 1, 5);
             connection.OnNewShape( objectId++, "orc", 3, 3, 1);
             connection.OnNewShape( objectId++, "kobold", 5, 5, 1);
-            // await Clients.Caller.SendAsync("shapeAdded", 2, "orc", 3, 3, 1);
-            // await Clients.Caller.SendAsync("shapeAdded", 3, "kobold", 5, 5, 1);
+        }
+
+        public void Tick()
+        {
+            connections[playerId].OnShapeMoved(playerId, x, y, 5);
         }
 
         //private
@@ -46,7 +47,6 @@ namespace Muse
             int min = 1;
             int max = 15;
 
-            Console.WriteLine(String.Format("got command ({0})", command));
             switch(command)
             {
                 case "north":
@@ -64,10 +64,6 @@ namespace Muse
                 default:
                 break;
             }
-
-            //int playerId = 0;
-            connections[playerId].OnShapeMoved(playerId, x, y, 5);
-            //await Clients.Caller.SendAsync("shapeMoved", playerId, x, y, z);
         }
 
     }
