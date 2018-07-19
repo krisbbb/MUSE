@@ -64,6 +64,11 @@ namespace Muse
                 default:
                 break;
             }
+
+            if(assets.Synchronous)
+            {
+                Tick();
+            }
         }
 
     }

@@ -19,6 +19,8 @@ namespace Muse
             return data;
         }
 
+        public bool Synchronous { get => true; }
+
         private string scenery = "basic";
 
         private int [,] data = new int[,] {

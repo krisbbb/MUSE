@@ -10,8 +10,8 @@ namespace MuseWeb.Hubs
     [Authorize]
     public class ClientHub : Hub
     {
-        private INotifyService _notify;
-        public ClientHub(INotifyService notify)
+        private INotifyService<ClientHub> _notify;
+        public ClientHub(INotifyService<ClientHub> notify)
         {
             _notify = notify;
         }

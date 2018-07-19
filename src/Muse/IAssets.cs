@@ -6,5 +6,6 @@ namespace Muse
     {
         string SceneryId(int mapId);
         int [,] MapData(int mapId);
+        bool Synchronous { get; }
     }
 }

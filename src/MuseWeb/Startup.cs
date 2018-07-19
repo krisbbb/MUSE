@@ -47,7 +47,7 @@ namespace MuseWeb
 
             services.AddSignalR();
 
-            services.AddTransient<INotifyService, NotifyService>();
+            services.AddTransient<INotifyService<ClientHub>, NotifyService<ClientHub>>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

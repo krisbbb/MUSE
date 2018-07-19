@@ -6,16 +6,16 @@ using MuseWeb.Hubs;
 
 namespace MuseWeb.Services
 {
-    public interface INotifyService
+    public interface INotifyService<T> where T : Hub
     {
         Task SendToOneClientAsync(string clientId, string message, params object[] args);
     }
 
-    public class NotifyService : INotifyService
+    public class NotifyService<T> : INotifyService<T> where T : Hub
     {
-        private IHubContext<ClientHub> _hub;
+        private IHubContext<T> _hub;
 
-        public NotifyService(IHubContext<ClientHub> hub)
+        public NotifyService(IHubContext<T> hub)
         {
             _hub = hub;
         }
