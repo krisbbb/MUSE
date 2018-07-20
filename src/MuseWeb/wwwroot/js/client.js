@@ -34,8 +34,8 @@ window.addEventListener('load',function(e) { //Run this file when the window loa
   var sprites = {};
   var image_map = {
     player: 'player',
-    orc: 'enemy',
-    kobold: 'ghost',
+    kobold: 'enemy',
+    tower: 'castle',
     //bullet: 'bullet.png'
   };
 

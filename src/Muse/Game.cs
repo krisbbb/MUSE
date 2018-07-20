@@ -17,12 +17,13 @@ namespace Muse
 
         public void Connect(IConnection connection)
         {
+            playerId = objectId++;
             connections[playerId] = connection;
             connection.Action += (s, e) => UserCommand(e.Action, e.TargetId);
             connection.OnNewScene(assets.SceneryId(mapId), assets.MapData(mapId));
             connection.OnNewShape(playerId, "player", x, y, 5);
-            connection.OnNewShape( objectId++, "orc", 3, 3, 1);
-            connection.OnNewShape( objectId++, "kobold", 5, 5, 1);
+            connection.OnNewShape(objectId++, "kobold", 3, 3, 1);
+            connection.OnNewShape(objectId++, "tower", 5, 5, 1);
         }
 
         public void Tick()
@@ -38,7 +39,8 @@ namespace Muse
         private IAssets assets { get; set; }
         private IDictionary<int, IConnection> connections { get; set; }
 
-        private int playerId = 0;
+        private int playerId;
+        private List<int> objects;
         private int x = 1;
         private int y = 1;
 
