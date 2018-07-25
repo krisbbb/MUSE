@@ -1,105 +1,47 @@
+var config = {
+  type: Phaser.AUTO,
+  width: 800,
+  height: 600,
+  physics: {
+      default: 'arcade',
+      arcade: {
+          gravity: { y: 200 }
+      }
+  },
+  scene: {
+      preload: preload,
+      create: create
+  }
+};
 
-console.log("this is the junk test example.")
+var game = new Phaser.Game(config);
 
-window.addEventListener('load',function(e) {
+function preload ()
+{
+  this.load.setBaseURL('http://labs.phaser.io');
 
-  var connection = new signalR.HubConnection("/hubs/client");
+  this.load.image('sky', 'assets/skies/space3.png');
+  this.load.image('logo', 'assets/sprites/phaser3-logo.png');
+  this.load.image('red', 'assets/particles/red.png');
+}
 
-  // Set up a standard Quintus instance with only the 
-  // Sprites and Scene module (for the stage support) loaded.
-  var Q = window.Q = Quintus().include("Sprites, Scenes, 2D, Input")
-                            .setup({ width: 1000, height: 600 });
+function create ()
+{
+  this.add.image(400, 300, 'sky');
 
-  Q.options.imagePath = '/images/';
-  Q.gravityY = 0;
+  var particles = this.add.particles('red');
 
-  // Create a simple scene that adds two shapes on the page
-  Q.scene("start",function(stage) {
-
-    // A basic sprite shape a asset as the image
-    var sprite1 = new Q.Sprite({ x: 500, y: 100, asset: 'enemy.png', 
-                                angle: 0, collisionMask: 1, scale: 1});
-    sprite1.p.points = [
-    [ -150, -120 ],
-    [  150, -120 ],
-    [  150,   60 ],
-    [   90,  120 ],
-    [  -90,  120 ],
-    [ -150,   60 ]
-    ];
-    stage.insert(sprite1);
-    // Add the 2D component for collision detection and gravity.
-    sprite1.add('2d')
-
-    sprite1.on('step',function() {
-
-    });
-
-    // A red platform for the other sprite to land on
-    var sprite2 = new Q.Sprite({ x: 500, y: 600, w: 300, h: 200 });
-    sprite2.draw= function(ctx) {
-    ctx.fillStyle = '#FF0000';
-    ctx.fillRect(-this.p.cx,-this.p.cy,this.p.w,this.p.h);
-    };
-    stage.insert(sprite2);
-    // Bind the basic inputs to different behaviors of sprite1
-    Q.input.on('up',stage,function(e) { 
-    //sprite1.p.scale -= 0.1;
-    connection.send("UserCommand", "north"); // keycode 38:up arrow
-    });
-
-    Q.input.on('down',stage,function(e) { 
-    //sprite1.p.scale += 0.1;
-    connection.send("UserCommand", "south"); // keycode 40:down arrow
-    });
-
-    Q.input.on('left',stage,function(e) {
-    //sprite1.p.angle -= 5;
-    connection.send("UserCommand", "west"); // keycode 37:left arrow
-    });
-
-    Q.input.on('right',stage,function(e) {
-    //sprite1.p.angle += 5;
-    connection.send("UserCommand", "east"); // keycode 39:right arrow
-    });
-
-    Q.input.on('fire',stage,function(e) {
-    //sprite1.p.vy = -600;
-    connection.send("UserCommand", "fire"); // keycode 90:z
-    });
-
-    Q.input.on('action',stage,function(e) {
-    // sprite1.p.x = 500;
-    // sprite1.p.y = 100;
-    connection.send("UserCommand", "action"); // keycode 88:x
-    });
-
-    connection.on('shapeMoved', function(x, y) {
-    //$shape.css({ left: x * 100, top: y * 100 });
-    //$x.html(x);
-    //$y.html(y);
-
-       sprite1.p.x = x * 100;
-      sprite1.p.y = y * 100;
-    });
-    
-    
-      // Draw some lines after each frame
-    //   stage.on('postrender',drawLines);
-    });
-  
-    Q.load('enemy.png',function() {
-  
-      // Start the show
-      Q.stageScene("start");
-  
-      // Turn visual debugging on to see the 
-      // bounding boxes and collision shapes
-      Q.debug = true;
-  
-      // Turn on default keyboard controls
-      Q.input.keyboardControls();
-    });
-  
-    connection.start()
+  var emitter = particles.createEmitter({
+      speed: 100,
+      scale: { start: 1, end: 0 },
+      blendMode: 'ADD'
   });
+
+  var logo = this.physics.add.image(400, 100, 'logo');
+
+  logo.setVelocity(100, 200);
+  logo.setBounce(1, 1);
+  logo.setCollideWorldBounds(true);
+
+  emitter.startFollow(logo);
+}
