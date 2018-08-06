@@ -1,0 +1,11 @@
+{
+    "images": "sprites.png",
+    "data": "sprites.json",
+    "tiles": "tiles.png",
+    "grid_size": 32,
+    "image_map": {
+        "player": "player",
+        "kobold": "enemy",
+        "tower": "castle",
+    }
+}

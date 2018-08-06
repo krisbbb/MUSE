@@ -5,8 +5,8 @@ window.addEventListener('load',function(e) { //Run this file when the window loa
   $y = $('#Y');
 
   var connection = new signalR.HubConnection("/hubs/client");
-  var image_path = '/images/';
-  var data_path = '/images/';
+  var image_path = '/simple_game/display/';
+  var data_path = '/simple_game/display/';
 
   var display = {
     images: 'sprites.png',
