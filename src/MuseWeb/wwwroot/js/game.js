@@ -8,6 +8,13 @@
 
 function CreateGame(connection, display, image_map, image_path, data_path)
 {
+
+  //Load config -> do setup
+  //Need to break this into multiple functions
+  //Can I decouple from connection?  Pass function pointers around?
+  //Setup based on config
+  //Tell connection we are ready to play - may not have to be connection.start...
+
   var files = [
     display['images'],
     display['data'],
